@@ -6,6 +6,8 @@ This is the start of the model description for the light representation of exter
 
 [external link to dummy personnel form](http://aidproto.s3-website-us-east-1.amazonaws.com/)
 
+[external link to dummy procurment form](http://aidproto.s3-website-us-east-1.amazonaws.com/procured-item.html)
+
 ![externalSystems](images/externalSystems.png)
 
 #### Program
