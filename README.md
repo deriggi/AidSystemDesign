@@ -6,7 +6,7 @@ This is the start of the model description for the light representation of exter
 
 [add a project here ](http://aidproto.s3-website-us-east-1.amazonaws.com/projectstructure.html)
 
-[see it live added here ](http://aidproto.s3-website-us-east-1.amazonaws.com/)
+[see it live added here ](http://aidproto.s3-website-us-east-1.amazonaws.com/projects.html)
 
 
 
