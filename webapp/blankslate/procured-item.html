@@ -1,0 +1,97 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Procurement</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" href="images/favicon.ico" />
+
+        <!-- Bootstrap core CSS -->
+        <link href="fixedtop.css" rel="stylesheet">
+
+        <link href="flatlybootstrap.css" rel="stylesheet">
+                <link href="datepicker3.css" rel="stylesheet">
+
+        <script src="js/jquerymin.js"></script>
+
+        <script src="js/bootstrap-datepicker.js"></script>
+
+    </head>
+    <body>
+
+
+        <div class="container">
+
+            <div class="row">
+                <h4> Add a procured item</h4>
+
+            </div>
+
+            <div class="row" style="margin-top:50px">
+
+                <div class="form-group">
+                    <label class="control-label" for="title">Title</label>
+                    <input class="form-control " id="title"  type="text" size="10" maxlength="50" >
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="description">Description</label>
+                    <input class="form-control " id="prenom"  type="text" size="100" maxlength="50" >
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="daterequested">Date</label>
+                    <input class="form-control datepicker" id="daterequested"  type="text" size="10" maxlength="50">
+                </div>
+            </div>
+
+             
+
+
+           <!--  <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="pwd">Password:</label>
+                    <input class="form-control " id="pwd"  type="password" size="10" maxlength="50">
+                </div>
+            </div> -->
+
+            <!--            <div class="form-group">
+                            <label class="control-label" for="rolegroup">Role:</label>
+            
+                            <div class="btn-group" data-toggle="buttons" id="rolegroup">
+            
+                                <label class="btn btn-default">
+                                    <input type="radio" id="data_entry" name="roleoption" value="ouichef"  /> data entry
+                                </label>
+                                <label class="btn btn-default ">
+                                    <input type="radio" id="noncef" name="chefoption" value="nonchef" /> NON
+                                </label>
+            
+                            </div>
+                        </div>-->
+            <div class="row">
+
+                <div >
+                    <button type="button" id="submitregister" class="btn btn-primary"> Add </button>
+                </div>
+            </div>
+
+           
+        </div>
+
+
+        <script>
+                    $('.datepicker').datepicker()
+        </script>
+    </body>
+</html>

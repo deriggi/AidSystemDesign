@@ -1,0 +1,121 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="images/favicon.ico" />
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="css/flatlybootstrap.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+
+    <script src="js/jquery-2.1.1.js"></script>
+
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+
+    
+</head>
+<body>
+
+    <!-- add a project to the view -->
+
+    <div class="container">
+        
+        <div class="row">
+            <h4>Add a project to the view</h4>
+        </div>
+
+        
+        <div class="row">
+
+            <div class="form-group col-md-6">
+                <label class="control-label" for="title">Title</label>
+                <input class="form-control " id="title"  type="text" size="100" maxlength="50" >
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group col-md-4" >
+                <label class="control-label" for="datestarted">Date started</label>
+                <input class="form-control datepicker" id="datestarted"  type="text" size="100" maxlength="50" >
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label" for="percentComplete">Percent complete</label>
+                <input class="form-control  " id="percentComplete"  type="text" size="100" maxlength="50" >
+            </div>
+        </div>
+
+        <div class="row">
+            <div >
+                <button type="button" id="addproject" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        var Project = function(startDate, title, percentComplete){
+            this.startDate = startDate
+            this.percentComplete = percentComplete
+            this.title = title;
+        }
+
+        $(document).ready(function(){
+            $('.datepicker').datepicker(); 
+            UIHandler.setup();
+        });
+
+        var UIHandler = (function(){
+            var fireRef = new Firebase("https://intense-inferno-4654.firebaseio.com/work");
+            var dateStarted = document.getElementById("datestarted")
+            var title = document.getElementById("title")
+            var percentComplete = document.getElementById("percentComplete")
+            
+            return {
+                setup: function(){
+                    $('#addproject').click(function(){
+                        var p = UIHandler.packageForm();
+                        UIHandler.pushData(p, 'project')
+                        alert('Project added')
+                        UIHandler.clearForm();
+
+                    });
+                },
+                
+                pushData: function(workObj, level){
+                    return fireRef.child(level).push(workObj).key()
+                },
+                
+                clearForm: function(){
+                    dateStarted.value = ''
+                    $(dateStarted).datepicker('update', '');
+                    title.value = ''
+                    percentComplete.value = ''
+                },
+
+                packageForm: function(){
+                    var p = new Project(dateStarted.value, title.value, percentComplete.value);
+
+                    console.log(p)
+                    return p;
+
+                }
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

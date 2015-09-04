@@ -1,0 +1,124 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="images/favicon.ico" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="fixedtop.css" rel="stylesheet">
+
+    <link href="flatlybootstrap.css" rel="stylesheet">
+    <link href="datepicker3.css" rel="stylesheet">
+
+    <script src="js/jquerymin.js"></script>
+
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+    
+</head>
+<body>
+
+
+    <div class="container">
+        <table class="table">
+            <tbody id='programbody'>
+                <tr><th>Title</th><th>Start Date</th><th>End Date</th></tr>
+
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class ='col-md-3 col-md-offset-1'>A project</div>
+        </div>
+        <div class="row">
+            <div class ='col-md-3 col-md-offset-2'>A sub project</div>
+        </div>
+
+        <div class="row">
+            <h4> Build a 1-n level structure</h4>
+        </div>
+
+        
+        <div class="row">
+
+            <div class="form-group">
+                <label class="control-label" for="level">Level</label>
+                <input class="form-control " id="level"  type="text" size="100" maxlength="50" >
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group">
+                <label class="control-label" for="title">Title</label>
+                <input class="form-control " id="title"  type="text" size="100" maxlength="50" >
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group">
+                <label class="control-label" for="parentid">ParentId</label>
+                <input class="form-control " id="parentid"  type="text" size="100" maxlength="50" >
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="row">
+
+            <div >
+                <button type="button" id="submitregister" class="btn btn-primary"> Upload </button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+    var UIHandler = (function() {
+
+        var programsFirebase = new Firebase("https://intense-inferno-4654.firebaseio.com/work/program");
+
+        return {
+
+            setup: function(){
+                console.log("ready to rock")
+            },
+
+            pushData: function(workObj, level){
+                return programsFirebase.child(level).push(workObj).key()
+            },
+
+            loadPrograms: function(programId){
+                var programTable = document.getElementById('programbody')
+                programsFirebase.on("child_added", function(snapshot, prevChildKey) {
+                    var program = snapshot.val();
+                    console.log(program.title)
+                    var row = $('<tr><td>'+program.title+'</td><td>'+program.startDate+'</td><td>'+program.endDate+'</td></tr>');
+                    $(programTable).append(row);
+                });
+
+            }
+
+        }
+
+    })();
+
+
+    $(UIHandler.loadPrograms());   
+
+    </script>
+</script>
+</body>
+</html>

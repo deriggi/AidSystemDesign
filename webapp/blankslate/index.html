@@ -1,0 +1,251 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Personnel</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" href="images/favicon.ico" />
+
+        <!-- Bootstrap core CSS -->
+        <link href="fixedtop.css" rel="stylesheet">
+
+        <link href="flatlybootstrap.css" rel="stylesheet">
+
+    </head>
+    <body>
+
+
+        <div class="container">
+
+            <div class="row">
+                <h4> Add a person</h4>
+
+            </div>
+
+            <div class="row" style="margin-top:50px">
+
+                <div class="form-group">
+                    <label class="control-label" for="nom">First Name</label>
+                    <input class="form-control " id="nom"  type="text" size="10" maxlength="50" >
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="prenom">Last Name</label>
+                    <input class="form-control " id="prenom"  type="text" size="10" maxlength="50" >
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="email">Email</label>
+                    <input class="form-control " id="email"  type="email" size="10" maxlength="50">
+                </div>
+            </div>
+
+             <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="ssn">SSN:</label>
+                    <input class="form-control " id="ssn"  type="password" size="12" maxlength="50">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="daily_rate">Rate</label>
+                    <input class="form-control " id="daily_rate"  type="text" size="12" maxlength="50">
+                </div>
+            </div>
+
+
+           <!--  <div class="row">
+
+                <div class="form-group">
+                    <label class="control-label" for="pwd">Password:</label>
+                    <input class="form-control " id="pwd"  type="password" size="10" maxlength="50">
+                </div>
+            </div> -->
+
+            <!--            <div class="form-group">
+                            <label class="control-label" for="rolegroup">Role:</label>
+            
+                            <div class="btn-group" data-toggle="buttons" id="rolegroup">
+            
+                                <label class="btn btn-default">
+                                    <input type="radio" id="data_entry" name="roleoption" value="ouichef"  /> data entry
+                                </label>
+                                <label class="btn btn-default ">
+                                    <input type="radio" id="noncef" name="chefoption" value="nonchef" /> NON
+                                </label>
+            
+                            </div>
+                        </div>-->
+            <div class="row">
+
+                <div >
+                    <button type="button" id="submitregister" class="btn btn-primary" onclick="register();">Register</button>
+                </div>
+            </div>
+
+            <div class="modal" id="loginmodal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Login</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label" for="emaillogin">Email</label>
+                                <input class="form-control " id="emaillogin"  type="email" size="10">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="pwdlogin">Password</label>
+                                <input class="form-control " id="pwdlogin"  type="password" size="10">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="cancelloginmodal" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" id="submitlogin" class="btn btn-primary">login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="js/jquerymin.js"></script>
+
+        <script>
+                    var Auth = (function() {
+                        var email = $('#emaillogin');
+                        var pwd = $('#pwdlogin');
+                        var modal = $('#loginmodal');
+
+                        $('.close').click(function() {
+                            $(modal).hide();
+                        });
+
+                        $('#cancelloginmodal').click(function() {
+                            $(modal).hide();
+                        });
+
+                        $('#submitlogin').click(function() {
+                            Auth.loginUser($(email).val(), $(pwd).val());
+
+                        });
+                        $('#logout').click(function() {
+                            Auth.logout();
+                        });
+
+                        return {
+                            logout: function() {
+
+                                window.localStorage.removeItem("role");
+                                window.localStorage.removeItem("nom");
+
+                            },
+                            checkUser: function() {
+                                var item = window.localStorage.getItem("role");
+                                console.log(item);
+                                if (item && parseInt(item) !== -1) {
+                                    $('#username').text(window.localStorage.getItem("nom"));
+
+                                    var roleId = parseInt(item);
+                                    if (roleId !== 3) {
+                                        $('#validaterow').hide();
+                                    }
+                                    console.log("stored roleId " + roleId);
+                                }
+                                else {
+                                    Auth.showLoginForm();
+                                }
+
+                            },
+                            showLoginForm: function() {
+                                $(modal).show();
+                            },
+                            hideLoginForm: function() {
+                                $(modal).hide();
+                            },
+                            loginUser: function(email, pwd) {
+
+
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: "/AvanseIndicators/v1/user/login",
+                                    data: JSON.stringify({"email": email, "password": pwd}),
+                                    dataType: "json",
+                                    success: function(data) {
+                                        window.localStorage.setItem("role", data.role_id);
+                                        var role_id = parseInt(data.role_id);
+
+                                        if (role_id > 0) {
+                                            console.log("still authed");
+                                            window.localStorage.setItem("nom", data.nom);
+                                            window.location = '/AvanseIndicators/bensearch.html';
+
+
+                                        } else {
+                                            alert("not authorized");
+                                            location.href = '/AvanseIndicators/index.html';
+                                        }
+                                        console.log(data);
+                                        Auth.hideLoginForm();
+                                    },
+                                    complete: function(data, status) {
+
+                                    }
+                                });
+                            }
+                        };
+                    })();
+
+
+
+                    function register() {
+                        var email = $('#email').val();
+                        var pwd = $('#pwd').val();
+                        var nom = $('#nom').val();
+                        var prenom = $('#prenom').val();
+                        var roleId = 2;
+
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json",
+                            url: "/AvanseIndicators/v1/user/register",
+                            data: JSON.stringify({"email": email, "password": pwd, "roleId": roleId, "nom": nom, "prenom": prenom}),
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.userid && data.userid === -1) {
+                                    alert("registration failed");
+                                } else {
+                                    window.location = '/AvanseIndicators/bensearch.html';
+                                }
+//                        window.sessionStorage.setItem("role", data.role_id);
+//                        
+//                        if (parseInt(data.role_id) !== -1) {
+//                            console.log("still authed");
+//                        } else {
+//                            alert("not authorized");
+//                            location.href = '/AvanseIndicators/index.html';
+//                        }
+                                console.log(data);
+                            },
+                            complete: function(data, status) {
+
+                            }
+                        });
+                    }
+        </script>
+    </body>
+</html>
